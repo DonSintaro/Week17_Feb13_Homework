@@ -4,7 +4,7 @@ const router = express.Router();
 const workout = require("./controller.js");
 
 router.get("/api/workouts/range", async function(req, res){
-  let data = await workout.readExercises();
+  let data = await workout.readExercisesLimit();
   res.send(data);
 });
 

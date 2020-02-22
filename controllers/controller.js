@@ -21,8 +21,13 @@ async function readExercises(){
     return await Workout.find({});
 }
 
+async function readExercisesLimit(){
+    return await Workout.find({}).limit(7);
+}
+
 module.exports = {
     readExercises:readExercises,
+    readExercisesLimit:readExercisesLimit,
     updateExercise:updateExercise,
     createExercise:createExercise
 
