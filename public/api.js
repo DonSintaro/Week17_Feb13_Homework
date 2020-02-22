@@ -14,8 +14,6 @@ const API = {
   async addExercise(data) {
     const id = location.search.split("=")[1];
 
-    console.log(id);//??????? purpose of id?  I think if undefined create new, otherwise probably uses the last workout info?
-
     const res = await fetch("/api/workouts/" + id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

@@ -1,50 +1,27 @@
 const express = require("express");
 const views = require ("./views.js");
-
-
-
 const router = express.Router();
-
-const Workout = require("../models/exerciseModel.js");/////////remove later
+const workout = require("./controller.js");
 
 router.get("/api/workouts/range", async function(req, res){
-  
-  let data = await Workout.find({})
-
+  let data = await workout.readExercises();
   res.send(data);
-
 });
 
-router.get("/api/workouts", (req, res) => {
-  
+router.get("/api/workouts", async function(req, res){
+  let data = await workout.readExercises();
+  res.send(data);
 });
 
-router.post("/api/workouts", ({body}, res) => {
-  let newWorkout = new Workout({
-    day: new Date(),
-    exercises: []
+router.post("/api/workouts", async function(req, res) {
+  let data = await workout.createExercise();
+  res.send(data);
+});
+
+router.put("/api/workouts/:id", async function({params, body}, res){
+  let data = await workout.updateExercise(params,body);
+  res.send( data );
   });
-  newWorkout.save()
-
-  res.send(newWorkout);
-});
-
-router.put("/api/workouts/:id", ({ params,body }, res) => {
-  console.log(body);
-  Workout.findOne({_id:params.id}).then(async function(data){
-    console.log("Got to put send thingfdafdsafdsf");
-    await data.exercises.push(body)
-    await data.save();
-    res.send( data );
-      //send an object of data to confirm 
-  })
-  .catch(function(err){
-    console.log(err);
-    res.status(500).send(err);
-  })
-
-  
-});
 
 ///////////////////////////////////////////////////////
 
@@ -53,7 +30,6 @@ router.get("/stats", (req, res) => {
 });
 
 router.get("/exercise", (req, res) => {
-  console.log("Got here");
   res.sendFile(views.exercise());
 });
 
